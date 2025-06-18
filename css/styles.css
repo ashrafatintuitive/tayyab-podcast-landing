@@ -2471,7 +2471,9 @@ body {
 
 /* Hide unnecessary elements */
 .at-inner .PersonalUrl,
-.at-inner label[for*="PersonalUrl"] {
+.at-inner label[for*="PersonalUrl"],
+.at-inner .at-markup.FastAction,
+.at-inner .at-legend {
   display: none !important;
 }
 
