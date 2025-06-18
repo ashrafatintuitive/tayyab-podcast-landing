@@ -2312,3 +2312,196 @@ body {
   margin: 0 auto;
   padding: 0 1rem;
 }
+
+/* EveryAction Form Styles */
+.ngp-form {
+  background: transparent !important;
+}
+
+.at-inner {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.at-inner header,
+.at-inner .at-sr-only {
+  display: none !important;
+}
+
+.at-inner form {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 189, 86, 0.2) !important;
+  border-radius: 1rem !important;
+  padding: 2rem !important;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 20px 40px rgba(0, 0, 0, 0.2),
+    0 30px 60px rgba(0, 0, 0, 0.4) !important;
+}
+
+.at-inner .at-fieldset {
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+.at-inner .at-legend {
+  color: var(--text-white) !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 1.125rem !important;
+  margin-bottom: 1.5rem !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.at-inner .at-row {
+  margin-bottom: 1rem !important;
+  background: transparent !important;
+}
+
+.at-inner label {
+  color: var(--text-gray) !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  display: block !important;
+  margin-bottom: 0.5rem !important;
+  background: transparent !important;
+}
+
+.at-inner input[type="text"],
+.at-inner input[type="email"] {
+  width: 100% !important;
+  padding: 0.875rem 1.25rem !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 189, 86, 0.2) !important;
+  border-radius: 0.5rem !important;
+  color: var(--text-white) !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  transition: all 0.3s ease !important;
+}
+
+.at-inner input[type="text"]:focus,
+.at-inner input[type="email"]:focus {
+  outline: none !important;
+  border-color: var(--accent-gold) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 0 20px rgba(255, 189, 86, 0.3) !important;
+}
+
+.at-inner input[type="text"]::placeholder,
+.at-inner input[type="email"]::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.at-inner input[type="checkbox"] {
+  margin-right: 0.5rem !important;
+  width: 16px !important;
+  height: 16px !important;
+  accent-color: var(--accent-gold) !important;
+}
+
+.at-inner .at-checkbox-title {
+  color: var(--text-gray) !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+.at-inner .at-submit {
+  background: linear-gradient(to right, var(--accent-gold), var(--accent-orange)) !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 0.875rem 2.5rem !important;
+  border-radius: 8px !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(255, 189, 86, 0.2) !important;
+  margin-top: 1rem !important;
+}
+
+.at-inner .at-submit:hover {
+  background: linear-gradient(to right, var(--accent-gold-light), #ffb061) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(255, 189, 86, 0.3) !important;
+}
+
+/* FastAction Section Styling */
+.at-inner .fastaction-block {
+  background: rgba(255, 189, 86, 0.05) !important;
+  border: 1px solid rgba(255, 189, 86, 0.1) !important;
+  border-radius: 0.75rem !important;
+  padding: 1rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.at-inner .fa-cta a,
+.at-inner .fa-lead a {
+  color: var(--accent-gold) !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+.at-inner .fa-cta a:hover,
+.at-inner .fa-lead a:hover {
+  color: var(--accent-gold-light) !important;
+  text-decoration: underline !important;
+}
+
+.at-inner .fa-lead {
+  color: var(--text-gray) !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 0.875rem !important;
+  line-height: 1.4 !important;
+}
+
+/* Hide unnecessary elements */
+.at-inner .PersonalUrl,
+.at-inner label[for*="PersonalUrl"] {
+  display: none !important;
+}
+
+/* Error Console Styling */
+.at-inner .at-error-console {
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  border-radius: 0.5rem !important;
+  padding: 1rem !important;
+  margin-bottom: 1rem !important;
+  color: #fca5a5 !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 0.875rem !important;
+}
+
+/* Responsive adjustments for form */
+@media (max-width: 640px) {
+  .at-inner form {
+    padding: 1.5rem !important;
+  }
+  
+  .at-inner .at-row {
+    flex-direction: column !important;
+  }
+  
+  .at-inner label {
+    width: 100% !important;
+  }
+  
+  .at-inner .at-submit {
+    width: 100% !important;
+  }
+}
