@@ -2314,6 +2314,7 @@ body {
 }
 
 /* EveryAction Form Styles */
+/* Commented out to avoid flash of text issues
 .ngp-form {
   background: transparent !important;
 }
@@ -2439,7 +2440,6 @@ body {
   box-shadow: 0 6px 20px rgba(255, 189, 86, 0.3) !important;
 }
 
-/* FastAction Section Styling */
 .at-inner .fastaction-block {
   background: rgba(255, 189, 86, 0.05) !important;
   border: 1px solid rgba(255, 189, 86, 0.1) !important;
@@ -2469,7 +2469,6 @@ body {
   line-height: 1.4 !important;
 }
 
-/* Hide unnecessary elements */
 .at-inner .PersonalUrl,
 .at-inner label[for*="PersonalUrl"],
 .at-inner .at-markup.FastAction,
@@ -2477,7 +2476,6 @@ body {
   display: none !important;
 }
 
-/* Error Console Styling */
 .at-inner .at-error-console {
   background: rgba(239, 68, 68, 0.1) !important;
   border: 1px solid rgba(239, 68, 68, 0.3) !important;
@@ -2489,7 +2487,6 @@ body {
   font-size: 0.875rem !important;
 }
 
-/* Responsive adjustments for form */
 @media (max-width: 640px) {
   .at-inner form {
     padding: 1.5rem !important;
@@ -2507,3 +2504,4 @@ body {
     width: 100% !important;
   }
 }
+*/
