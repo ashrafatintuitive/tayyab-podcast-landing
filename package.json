@@ -1,0 +1,24 @@
+{
+  "name": "the-muslim-nonprofit-show",
+  "version": "1.0.0",
+  "description": "Landing page for The Muslim Nonprofit Show with Tayyab Yunus",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python3 -m http.server 3000 --bind 127.0.0.1",
+    "start": "python3 -m http.server 3000 --bind 127.0.0.1",
+    "build": "echo 'No build step required for static site'",
+    "serve": "npx serve . -p 3000",
+    "preview": "npx serve . -p 3000"
+  },
+  "keywords": [
+    "muslim",
+    "nonprofit",
+    "podcast",
+    "tayyab-yunus"
+  ],
+  "author": "Tayyab Yunus",
+  "license": "ISC",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
