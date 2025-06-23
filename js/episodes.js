@@ -99,7 +99,7 @@ const podcastData = {
             publishDate: "2025-06-15",
             youtubeId: "7k5b8YxXqcs",
             audioUrl: "https://audio.transistor.fm/episode-2.mp3",
-            featured: true,
+            featured: false,
             tags: ["Islamic education", "school founding", "community building", "educational leadership", "sustainability"],
             keyTakeaways: [
                 "Why she started three different Islamic schools and their unique models",
@@ -107,12 +107,32 @@ const podcastData = {
                 "Staffing challenges and building a committed team",
                 "Long-term commitment and mission-market fit for Islamic institutions"
             ]
+        },
+        {
+            id: 3,
+            title: "From Rainy Prayers to a Mega Masjid: A Journey of Vision & Trust",
+            description: "In this powerful episode of The Muslim Non-profit Show with Tayyab Yunus, we sit down with Imam Tariq Rashid from the Islamic Center of Orlando, located just outside Disney World, to uncover his remarkable journey of transforming a small masjid into a 23,000 sq ft community hub—completely debt-free. He shares heartfelt stories of early struggles, opposition, the value of outreach to non-Muslim neighbors, and the critical mindset needed to grow a masjid successfully.",
+            guest: "Imam Tariq Rashid",
+            guestTitle: "Imam, Islamic Center of Orlando",
+            duration: "31:30",
+            publishDate: "2025-06-18",
+            youtubeId: "7hQml6-4SUM",
+            audioUrl: "https://audio.transistor.fm/episode-3.mp3",
+            featured: true,
+            tags: ["masjid development", "community outreach", "fundraising", "interfaith relations", "leadership"],
+            keyTakeaways: [
+                "Transforming a small masjid into a 23,000 sq ft community hub debt-free",
+                "The importance of outreach to non-Muslim neighbors before permits",
+                "Fundraising challenges and trusting Allah for miraculous provisions",
+                "Board dynamics, imam leadership, and wearing multiple hats",
+                "Building community trust through genuine service"
+            ]
         }
     ],
 
     // Statistics
     stats: {
-        totalEpisodes: 2,
+        totalEpisodes: 3,
         totalDownloads: "1.2K+",
         averageRating: 4.9,
         countries: 12
