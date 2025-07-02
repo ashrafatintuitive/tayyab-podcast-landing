@@ -1,37 +1,25 @@
-# Cache Prevention for Dynamic Content
-# Prevent caching of main HTML file
-<Files "index.html">
-    Header always set Cache-Control "no-cache, no-store, must-revalidate"
-    Header always set Pragma "no-cache" 
-    Header always set Expires "0"
-</Files>
+# Basic cache prevention without mod_headers dependency
+<IfModule mod_headers.c>
+    # Cache Prevention for Dynamic Content
+    # Prevent caching of main HTML file
+    <Files "index.html">
+        Header always set Cache-Control "no-cache, no-store, must-revalidate"
+        Header always set Pragma "no-cache" 
+        Header always set Expires "0"
+    </Files>
 
-# Prevent caching of JavaScript data files that change frequently
-<FilesMatch "\.(js)$">
-    # Check if it's our dynamic content files
-    SetEnvIf Request_URI "(episodes|website-data)\.js" dynamic_content
-    Header always set Cache-Control "no-cache, no-store, must-revalidate" env=dynamic_content
-    Header always set Pragma "no-cache" env=dynamic_content
-    Header always set Expires "0" env=dynamic_content
-</FilesMatch>
+    # Prevent caching of JavaScript data files that change frequently
+    <FilesMatch "(episodes|website-data)\.js$">
+        Header always set Cache-Control "no-cache, no-store, must-revalidate"
+        Header always set Pragma "no-cache"
+        Header always set Expires "0"
+    </FilesMatch>
 
-# Allow longer caching for static assets (fonts, images, etc.)
-<FilesMatch "\.(css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$">
-    # Only cache if not being cache-busted
-    SetEnvIf Query_String "nocache" no_cache_asset
-    Header unset Cache-Control env=no_cache_asset
-    Header unset Pragma env=no_cache_asset
-    Header unset Expires env=no_cache_asset
-    Header always set Cache-Control "no-cache, no-store, must-revalidate" env=no_cache_asset
-    
-    # Normal caching for non-cache-busted assets
-    Header set Cache-Control "public, max-age=31536000" env=!no_cache_asset
-</FilesMatch>
-
-# Security headers
-Header always set X-Content-Type-Options nosniff
-Header always set X-Frame-Options DENY
-Header always set X-XSS-Protection "1; mode=block"
+    # Security headers
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
 
 # GZIP Compression
 <IfModule mod_deflate.c>
