@@ -26,7 +26,11 @@ function exportToEpisodesJs() {
                 'audioUrl' => $episode['audio_url'],
                 'featured' => (bool) $episode['featured'],
                 'tags' => !empty($episode['tags']) ? explode(',', $episode['tags']) : [],
-                'keyTakeaways' => !empty($episode['key_takeaways']) ? explode('|', $episode['key_takeaways']) : []
+                'keyTakeaways' => !empty($episode['key_takeaways']) ? 
+                    (is_string($episode['key_takeaways']) && substr($episode['key_takeaways'], 0, 1) === '[' ? 
+                        json_decode($episode['key_takeaways'], true) : 
+                        explode('|', $episode['key_takeaways'])
+                    ) : []
             ];
             
             // Remove null values

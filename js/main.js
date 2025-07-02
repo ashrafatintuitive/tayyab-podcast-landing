@@ -13,6 +13,7 @@ class PodcastWebsite {
         this.initializeResponsiveLayout();
         this.initializeEpisodePlayer();
         this.initializeHeroMouseEffect();
+        this.populateWebsiteContent();
     }
 
     // Initialize responsive layout adjustments
@@ -585,6 +586,139 @@ class PodcastWebsite {
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
         };
+    }
+
+    // Populate website content from CRM data
+    populateWebsiteContent() {
+        if (typeof websiteData === 'undefined') {
+            console.log('Website data not loaded, using static content');
+            return;
+        }
+
+        try {
+            // Populate hero section
+            if (websiteData.hero) {
+                const hero = websiteData.hero;
+                
+                // Update hero badge if it exists
+                const badge = document.querySelector('.hero-badge');
+                if (badge && hero.badge) badge.textContent = hero.badge;
+                
+                // Update hero title
+                const title = document.querySelector('.hero-title');
+                if (title && hero.title) title.textContent = hero.title;
+                
+                // Update hero byline
+                const byline = document.querySelector('.hero-byline');
+                if (byline && hero.byline) byline.textContent = hero.byline;
+                
+                // Update hero description
+                const description = document.querySelector('.hero-description');
+                if (description && hero.description) description.textContent = hero.description;
+                
+                // Update CTA buttons
+                const listenBtn = document.querySelector('.btn-listen');
+                if (listenBtn && hero.listen_text) listenBtn.textContent = hero.listen_text;
+                
+                const watchBtn = document.querySelector('.btn-watch');
+                if (watchBtn && hero.watch_text) watchBtn.textContent = hero.watch_text;
+            }
+
+            // Populate stats section
+            if (websiteData.stats) {
+                const stats = websiteData.stats;
+                
+                // Update each stat
+                const statElements = {
+                    episodes: document.querySelector('[data-stat="episodes"] .stat-number'),
+                    downloads: document.querySelector('[data-stat="downloads"] .stat-number'),
+                    rating: document.querySelector('[data-stat="rating"] .stat-number'),
+                    countries: document.querySelector('[data-stat="countries"] .stat-number')
+                };
+                
+                const statLabels = {
+                    episodes: document.querySelector('[data-stat="episodes"] .stat-label'),
+                    downloads: document.querySelector('[data-stat="downloads"] .stat-label'),
+                    rating: document.querySelector('[data-stat="rating"] .stat-label'),
+                    countries: document.querySelector('[data-stat="countries"] .stat-label')
+                };
+
+                Object.keys(statElements).forEach(key => {
+                    if (statElements[key] && stats[key]) {
+                        statElements[key].textContent = stats[key];
+                    }
+                    if (statLabels[key] && stats[key + '_label']) {
+                        statLabels[key].textContent = stats[key + '_label'];
+                    }
+                });
+            }
+
+            // Populate mission section
+            if (websiteData.mission) {
+                const mission = websiteData.mission;
+                
+                const missionTitle = document.querySelector('.mission-title, #mission h2');
+                if (missionTitle && mission.title) missionTitle.textContent = mission.title;
+                
+                const missionContent = document.querySelector('.mission-content, #mission p');
+                if (missionContent && mission.content) {
+                    // Handle line breaks properly
+                    missionContent.innerHTML = mission.content.replace(/\\n/g, '<br>');
+                }
+            }
+
+            // Populate social links
+            if (websiteData.social) {
+                const social = websiteData.social;
+                
+                const socialLinks = {
+                    apple: document.querySelector('a[href*="apple"], a[href*="podcasts.apple.com"]'),
+                    spotify: document.querySelector('a[href*="spotify"]'),
+                    youtube: document.querySelector('a[href*="youtube"]'),
+                    transistor: document.querySelector('a[href*="transistor"]')
+                };
+
+                if (socialLinks.apple && social.apple_podcasts) {
+                    socialLinks.apple.href = social.apple_podcasts;
+                }
+                if (socialLinks.spotify && social.spotify) {
+                    socialLinks.spotify.href = social.spotify;
+                }
+                if (socialLinks.youtube && social.youtube) {
+                    socialLinks.youtube.href = social.youtube;
+                }
+                if (socialLinks.transistor && social.transistor) {
+                    socialLinks.transistor.href = social.transistor;
+                }
+            }
+
+            // Update meta information
+            if (websiteData.meta) {
+                const meta = websiteData.meta;
+                
+                if (meta.title) document.title = meta.title;
+                
+                const metaDescription = document.querySelector('meta[name="description"]');
+                if (metaDescription && meta.description) {
+                    metaDescription.setAttribute('content', meta.description);
+                }
+                
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle && meta.title) {
+                    ogTitle.setAttribute('content', meta.title);
+                }
+                
+                const ogDescription = document.querySelector('meta[property="og:description"]');
+                if (ogDescription && meta.description) {
+                    ogDescription.setAttribute('content', meta.description);
+                }
+            }
+
+            console.log('Website content populated from CRM data');
+            
+        } catch (error) {
+            console.error('Error populating website content:', error);
+        }
     }
 }
 
