@@ -218,11 +218,11 @@ async function syncSources() {
     }
 }
 
-// Export episodes (now includes sync)
-async function exportEpisodes() {
+// Sync and publish episodes
+async function syncAndPublishEpisodes() {
     const button = event.target;
     button.disabled = true;
-    button.textContent = 'Syncing & Exporting...';
+    button.textContent = 'Syncing & Publishing...';
     
     try {
         const response = await fetch(`${API_URL}/export`, {method: 'POST'});
@@ -249,13 +249,13 @@ async function exportEpisodes() {
             loadEpisodes();
             loadStats();
         } else {
-            throw new Error(result.export?.message || result.message || 'Export failed');
+            throw new Error(result.export?.message || result.message || 'Publish failed');
         }
     } catch (error) {
-        showNotification('Error syncing and exporting episodes', 'error');
+        showNotification('Error syncing and publishing episodes', 'error');
     } finally {
         button.disabled = false;
-        button.textContent = 'Sync & Export';
+        button.textContent = 'Sync & Publish';
     }
 }
 
@@ -390,6 +390,9 @@ async function saveContent(event, section) {
             showNotification(`${section.charAt(0).toUpperCase() + section.slice(1)} content saved successfully`, 'success');
             // Update local content
             websiteContent[section] = data;
+            
+            // Auto-publish to website
+            await autoPublishContent();
         } else {
             throw new Error('Save failed');
         }
@@ -398,23 +401,38 @@ async function saveContent(event, section) {
     }
 }
 
-// Export all content (episodes and website content)
-async function exportAll() {
+// Auto-publish content after save
+async function autoPublishContent() {
+    try {
+        const response = await fetch(`${API_URL}/export-all`, {method: 'POST'});
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification('Content published to website', 'success');
+        }
+    } catch (error) {
+        console.error('Auto-publish failed:', error);
+        // Don't show error to user for auto-publish
+    }
+}
+
+// Publish all content (episodes and website content)
+async function publishAll() {
     const button = event.target;
     button.disabled = true;
-    button.textContent = 'Exporting...';
+    button.textContent = 'Publishing...';
     
     try {
         // First sync episodes
         const syncResponse = await fetch(`${API_URL}/sync`, {method: 'POST'});
         const syncResult = await syncResponse.json();
         
-        // Then export everything
-        const exportResponse = await fetch(`${API_URL}/export-all`, {method: 'POST'});
-        const exportResult = await exportResponse.json();
+        // Then publish everything
+        const publishResponse = await fetch(`${API_URL}/export-all`, {method: 'POST'});
+        const publishResult = await publishResponse.json();
         
-        if (exportResult.success) {
-            let message = 'All content exported successfully!';
+        if (publishResult.success) {
+            let message = 'All content published successfully!';
             
             if (syncResult.rss && syncResult.rss.items_added > 0) {
                 message += ` Found ${syncResult.rss.items_added} new episodes.`;
@@ -424,13 +442,13 @@ async function exportAll() {
             loadEpisodes();
             loadStats();
         } else {
-            throw new Error('Export failed');
+            throw new Error('Publish failed');
         }
     } catch (error) {
-        showNotification('Error exporting content', 'error');
+        showNotification('Error publishing content', 'error');
     } finally {
         button.disabled = false;
-        button.textContent = 'Export All';
+        button.textContent = 'Publish All';
     }
 }
 
