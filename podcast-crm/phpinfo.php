@@ -24,7 +24,7 @@ echo "</pre>";
 // Test RSS feed access
 echo "<h2>RSS Feed Test</h2>";
 echo "<pre>";
-$rss_url = 'https://feeds.transistor.fm/the-muslim-non-profit-show';
+$rss_url = 'https://feeds.libsyn.com/580735/rss';
 echo "Testing RSS feed: $rss_url\n";
 
 if (ini_get('allow_url_fopen')) {
