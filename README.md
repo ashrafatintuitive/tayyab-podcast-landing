@@ -62,7 +62,7 @@ tayyab-podcast-landing/
 - Write permissions for the `podcast-crm/data` directory
 
 ### Step 1: Initial Setup
-1. Navigate to `https://yourdomain.com/podcast-crm/setup.php`
+1. Navigate to `https://themuslimnonprofitshow.com/podcast-crm/setup.php`
 2. Enter your desired admin password
 3. Copy the generated password hash
 4. Edit `podcast-crm/config/config.php` and update the hash
@@ -85,8 +85,8 @@ define('YOUTUBE_CHANNEL_ID', 'your-channel-id');
 ```
 
 ### Step 3: Access Admin Panel
-- URL: `https://yourdomain.com/podcast-crm/` (redirects to admin panel)
-- Or directly: `https://yourdomain.com/podcast-crm/admin/`
+- URL: `https://themuslimnonprofitshow.com/podcast-crm/` (redirects to admin panel)
+- Or directly: `https://themuslimnonprofitshow.com/podcast-crm/admin/`
 - Default username: `admin`
 - Password: What you set in setup
 
