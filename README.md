@@ -85,7 +85,8 @@ define('YOUTUBE_CHANNEL_ID', 'your-channel-id');
 ```
 
 ### Step 3: Access Admin Panel
-- URL: `https://yourdomain.com/podcast-crm/admin/`
+- URL: `https://yourdomain.com/podcast-crm/` (redirects to admin panel)
+- Or directly: `https://yourdomain.com/podcast-crm/admin/`
 - Default username: `admin`
 - Password: What you set in setup
 

@@ -1,5 +1,8 @@
 # Podcast CRM .htaccess
 
+# Set default index files
+DirectoryIndex index.php index.html
+
 # Rewrite rules for clean API URLs
 RewriteEngine On
 RewriteBase /podcast-crm/
