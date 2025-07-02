@@ -4,7 +4,16 @@
  * Run this script at: https://themuslimnonprofitshow.com/podcast-crm/init-episodes.php
  */
 
-require_once __DIR__ . '/api/db.php';
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+try {
+    require_once __DIR__ . '/config/config.php';
+    require_once __DIR__ . '/api/db.php';
+} catch (Exception $e) {
+    die('Config/DB Error: ' . $e->getMessage());
+}
 
 // Security check
 $secret_key = 'init123';
