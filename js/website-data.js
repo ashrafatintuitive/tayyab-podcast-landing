@@ -1,19 +1,19 @@
 // Website content data for The Muslim Non-Profit Show
-// Generated from CMS on 2025-06-26 16:52:37
+// Generated from CMS on 2025-01-02 18:30:00
 
 const websiteData = {
     "hero": {
-        "badge": "TEST BADGE",
-        "title": "Test Title",
-        "byline": "Test Byline",
-        "description": "Test description for content save functionality",
-        "listen_text": "Listen Test",
-        "watch_text": "Watch Test"
+        "badge": "NEW EPISODES WEEKLY",
+        "title": "The Muslim Non-Profit Show",
+        "byline": "with Tayyab Yunus",
+        "description": "Breaking the 95% failure rate in Muslim non-profits through powerful stories and actionable insights. Weekly conversations with changemakers who've scaled their impact.",
+        "listen_text": "Listen Now",
+        "watch_text": "Watch on YouTube"
     },
     "stats": {
-        "episodes": "3",
+        "episodes": "5",
         "episodes_label": "Episodes",
-        "downloads": "1.2K+",
+        "downloads": "85K+",
         "downloads_label": "Downloads",
         "rating": "4.9",
         "rating_label": "Rating",
@@ -27,7 +27,7 @@ const websiteData = {
     "social": {
         "apple_podcasts": "https://podcasts.apple.com/us/podcast/the-muslim-non-profit-show-with-tayyab-yunus/id1818343671",
         "spotify": "https://open.spotify.com/show/0N3Iy4641bzCvN2kCvmm8W",
-        "youtube": "https://www.youtube.com/@themuslimnonprofitshow",
+        "youtube": "https://www.youtube.com/@tayyabyunus",
         "instagram": "https://instagram.com/themuslimnonprofitshow",
         "linkedin": "https://linkedin.com/company/themuslimnonprofitshow",
         "twitter": "https://twitter.com/muslimnonprofit"
@@ -39,9 +39,9 @@ const websiteData = {
         "og_image": "https://themuslimnonprofitshow.com/images/og-image.jpg"
     },
     "footer": {
-        "title": "The Muslim Non-Profit Show",
-        "tagline": "Empowering Muslim leaders to create lasting change",
-        "contact": "hello@themuslimnonprofitshow.com"
+        "copyright_text": "© 2025 The Muslim Non-Profit Show with Tayyab Yunus. Making the world a better place, one story at a time.",
+        "tayyab_url": "https://tayyabyunus.com/",
+        "email": "hello@tayyabyunus.com"
     }
 };
 
