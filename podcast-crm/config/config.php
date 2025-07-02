@@ -13,7 +13,7 @@ define('YOUTUBE_CHANNEL_ID', '@tayyabyunus'); // Channel handle for API calls
 
 // Authentication - CHANGE THESE!
 define('ADMIN_USERNAME', 'admin');
-define('ADMIN_PASSWORD_HASH', '$2y$12$/tXEcW9jACf0eYYJ8BA1Mus/Ek6t3n/OpXMpy1FNWjP4BfCsyK7zu'); // Default: admin123
+define('ADMIN_PASSWORD_HASH', '$2y$10$65nRapbf3CiYuTPOiB7IQO6Mnpzt/KaW4CqCstS5EV5n1qoBTFA56'); // Updated password
 
 // Timezone
 date_default_timezone_set('America/New_York');
