@@ -3,6 +3,9 @@ const API_URL = '../api/index.php';
 let episodes = [];
 let editingId = null;
 
+// Debug: Log that script is loaded
+console.log('CRM Admin script loaded successfully');
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     loadStats();
@@ -457,4 +460,58 @@ document.addEventListener('DOMContentLoaded', () => {
     loadStats();
     loadEpisodes();
     loadWebsiteContent();
+});
+
+// === CRITICAL: GLOBAL FUNCTION ASSIGNMENTS ===
+// These functions MUST be globally accessible for HTML onclick handlers
+
+// Re-declare publishAll as a simple global function
+window.publishAll = async function(event) {
+    const button = event.target;
+    button.disabled = true;
+    button.textContent = 'Publishing...';
+    
+    try {
+        const response = await fetch(`${API_URL}/export-all`, {method: 'POST'});
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification('All content published successfully!', 'success');
+            loadEpisodes();
+            loadStats();
+        } else {
+            throw new Error('Publish failed');
+        }
+    } catch (error) {
+        showNotification('Error publishing content', 'error');
+    } finally {
+        button.disabled = false;
+        button.textContent = 'Publish All';
+    }
+};
+
+window.syncSources = async function(event) {
+    const button = event.target;
+    button.disabled = true;
+    button.textContent = 'Syncing...';
+    
+    try {
+        const response = await fetch(`${API_URL}/sync`, {method: 'POST'});
+        const result = await response.json();
+        
+        showNotification('Sync completed', 'success');
+        loadEpisodes();
+        loadStats();
+    } catch (error) {
+        showNotification('Error syncing sources', 'error');
+    } finally {
+        button.disabled = false;
+        button.textContent = 'Sync Sources';
+    }
+};
+
+// Debug: Verify functions exist
+console.log('🚀 CRM Functions Ready:', {
+    publishAll: typeof window.publishAll,
+    syncSources: typeof window.syncSources
 });
