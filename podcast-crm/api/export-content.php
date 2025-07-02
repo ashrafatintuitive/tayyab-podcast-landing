@@ -43,11 +43,16 @@ function exportWebsiteContent() {
             throw new Exception('Failed to write website-data.js file');
         }
         
+        // Update cache busting version
+        require_once __DIR__ . '/export.php';
+        updateCacheVersion();
+        
         return [
             'status' => 'success',
             'message' => 'Exported website content to website-data.js',
             'sections_count' => count($websiteData),
-            'file_path' => $outputPath
+            'file_path' => $outputPath,
+            'cache_updated' => true
         ];
         
     } catch (Exception $e) {

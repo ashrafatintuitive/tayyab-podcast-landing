@@ -85,11 +85,15 @@ EOD;
             throw new Exception('Failed to write episodes.js file');
         }
         
+        // Update cache busting version in index.html for immediate cache break
+        updateCacheVersion();
+        
         return [
             'status' => 'success',
             'message' => 'Exported ' . count($episodes) . ' episodes to episodes.js',
             'episodes_count' => count($episodes),
-            'file_path' => EPISODES_JS_PATH
+            'file_path' => EPISODES_JS_PATH,
+            'cache_updated' => true
         ];
         
     } catch (Exception $e) {
@@ -98,4 +102,24 @@ EOD;
             'message' => $e->getMessage()
         ];
     }
+}
+
+// Cache busting function to update version in index.html
+function updateCacheVersion() {
+    $indexPath = SITE_PATH . 'index.html';
+    if (!file_exists($indexPath)) {
+        return false;
+    }
+    
+    $content = file_get_contents($indexPath);
+    $timestamp = time();
+    
+    // Update all JS file versions with timestamp
+    $content = preg_replace(
+        '/(<script src="js\/[^"]+\.js)\?v=[^"]*(")/i',
+        '$1?v=' . $timestamp . '$2',
+        $content
+    );
+    
+    return file_put_contents($indexPath, $content);
 }
