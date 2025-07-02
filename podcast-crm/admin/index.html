@@ -398,9 +398,7 @@
     <script>
     // IMMEDIATE GLOBAL FUNCTION ASSIGNMENTS - Fix for onclick handlers
     function publishAll() {
-        if (window.publishAll) {
-            return window.publishAll(event);
-        }
+        // Remove the recursive call - use direct implementation
         // Direct implementation as backup
         const button = event.target;
         button.disabled = true;
@@ -410,13 +408,13 @@
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
-                    showNotification('All content published successfully!', 'success');
+                    alert('All content published successfully!');
                 } else {
-                    showNotification('Error publishing content', 'error');
+                    alert('Error publishing content');
                 }
             })
             .catch(error => {
-                showNotification('Error publishing content', 'error');
+                alert('Error publishing content');
             })
             .finally(() => {
                 button.disabled = false;
@@ -425,9 +423,7 @@
     }
     
     function syncSources() {
-        if (window.syncSources) {
-            return window.syncSources(event);
-        }
+        // Remove the recursive call - use direct implementation
         // Direct implementation as backup
         const button = event.target;
         button.disabled = true;
@@ -436,10 +432,10 @@
         fetch('../api/index.php/sync', {method: 'POST'})
             .then(response => response.json())
             .then(result => {
-                showNotification('Sync completed', 'success');
+                alert('Sync completed');
             })
             .catch(error => {
-                showNotification('Error syncing sources', 'error');
+                alert('Error syncing sources');
             })
             .finally(() => {
                 button.disabled = false;
