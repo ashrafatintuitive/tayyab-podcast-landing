@@ -106,11 +106,16 @@ define('YOUTUBE_CHANNEL_ID', 'your-channel-id');
 
 ### Importing from RSS Feed
 
+**Current RSS Feed**: `https://feeds.libsyn.com/580735/rss` (Libsyn)
+
 1. Click "Sync Sources" in the admin panel
 2. The system will import new episodes from your RSS feed
-3. Edit imported episodes to add missing details
+3. Edit imported episodes to add missing details (key takeaways, guest info)
 4. Change status from "draft" to "published"
-5. Click "Export All" to update the website
+5. Set featured status for the latest episode
+6. Click "Export All" to update the website
+
+**Note**: RSS feed URL is configured in `podcast-crm/config/config.php`. The current feed is sourced from the Apple Podcasts listing.
 
 ### Featured Episodes
 - Only one episode can be featured at a time
@@ -139,35 +144,59 @@ define('YOUTUBE_CHANNEL_ID', 'your-channel-id');
 
 ## 🔄 How CRM Connects to Main Site
 
-The CRM system manages episode data and exports it to `js/episodes.js`:
+The CRM system manages all website content and exports it to JavaScript files for the frontend:
 
-1. **Data Flow**:
-   - Episodes stored in SQLite database
-   - Admin panel for CRUD operations
-   - Export function generates JavaScript file
-   - Main site reads from `episodes.js`
+### Complete Data Flow: CRM → Website
 
-2. **Automatic Updates**:
-   - Click "Export All" to update the website
-   - Or set up a cron job for automatic sync
+```
+CRM Database → Export Functions → JavaScript Files → Website Display
+     ↓              ↓                    ↓              ↓
+Episodes Table → export.php → js/episodes.js → Episode Player
+Content JSONs → export-content.php → js/website-data.js → Dynamic Content
+```
 
-3. **Episode Structure**:
-   ```javascript
-   {
-     id: 1,
-     title: "Episode Title",
-     description: "Full description",
-     guest: "Guest Name",
-     guestTitle: "Guest Title",
-     duration: "MM:SS",
-     publishDate: "YYYY-MM-DD",
-     youtubeId: "YouTube_ID",
-     audioUrl: "https://audio.url",
-     featured: true/false,
-     tags: ["tag1", "tag2"],
-     keyTakeaways: ["takeaway1", "takeaway2"]
-   }
-   ```
+### 1. Episode Management
+- **Storage**: Episodes stored in SQLite database with full metadata
+- **Export**: `export.php` generates `js/episodes.js` 
+- **Display**: Episode player and grid populated from episodes data
+- **Features**: Featured episode selection, tags, key takeaways, publishing status
+
+### 2. Website Content Management
+- **Editable Sections**: Hero, Stats, Mission, Social Links, Meta Tags
+- **Storage**: Content stored in individual JSON files in `podcast-crm/data/`
+- **Export**: `export-content.php` generates `js/website-data.js`
+- **Integration**: `main.js` uses `populateWebsiteContent()` to update page dynamically
+
+### 3. Content Areas Managed by CRM
+- **Hero Section**: Badge, title, byline, description, CTA button text
+- **Stats Section**: Episode count, downloads, rating, countries reached
+- **Mission Section**: Title and full mission statement
+- **Social Links**: Apple Podcasts, Spotify, YouTube, social media URLs
+- **Meta Tags**: SEO title, description, keywords for search engines
+
+### 4. Export Process
+- **Manual**: Click "Export All" in admin panel
+- **Automatic**: Can be triggered via API for automated workflows
+- **Dual Export**: Both episodes and website content export together
+- **Cache Busting**: JavaScript files use versioned URLs for immediate updates
+
+### 5. Episode Structure (Auto-Generated)
+```javascript
+{
+  id: 1,
+  title: "Episode Title",
+  description: "Full description",
+  guest: "Guest Name",
+  guestTitle: "Guest Title",
+  duration: "MM:SS",
+  publishDate: "YYYY-MM-DD",
+  youtubeId: "YouTube_ID",
+  audioUrl: "https://audio.url",
+  featured: true/false,
+  tags: ["tag1", "tag2"],
+  keyTakeaways: ["takeaway1", "takeaway2"]
+}
+```
 
 ## 🚀 Deployment
 
@@ -205,6 +234,20 @@ The CRM requires PHP hosting:
 1. Check `podcast-crm/data` directory permissions
 2. Verify SQLite PHP extension is enabled
 3. Check error logs in `podcast-crm/data`
+
+### Database Initialization
+If you need to initialize the database with the current 5 episodes:
+1. Visit: `https://themuslimnonprofitshow.com/podcast-crm/simple-init.php?key=init123`
+2. This will create tables and populate with episodes matching the current website
+3. Delete the initialization file after use for security
+
+### Testing Complete Workflow
+1. **Initialize Database**: Use the init script to populate episodes
+2. **Access CRM**: Login to admin panel and verify episodes appear
+3. **Test Sync**: Click "Sync Sources" to test RSS feed integration
+4. **Test Export**: Click "Export All" and verify website updates
+5. **Edit Content**: Modify hero/stats/mission content and export
+6. **Verify Frontend**: Check that all changes appear on the website
 
 ## 📞 Support
 
