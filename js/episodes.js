@@ -118,7 +118,7 @@ const podcastData = {
             publishDate: "2025-06-18",
             youtubeId: "7hQml6-4SUM",
             audioUrl: "https://audio.transistor.fm/episode-3.mp3",
-            featured: true,
+            featured: false,
             tags: ["masjid development", "community outreach", "fundraising", "interfaith relations", "leadership"],
             keyTakeaways: [
                 "Transforming a small masjid into a 23,000 sq ft community hub debt-free",
@@ -127,12 +127,53 @@ const podcastData = {
                 "Board dynamics, imam leadership, and wearing multiple hats",
                 "Building community trust through genuine service"
             ]
+        },
+        {
+            id: 4,
+            title: "Built From the Ground Up: How Vision, Grit & Faith Created Real Change | Episode 4",
+            description: "In this powerful episode of The Muslim Non-profit Show with Tayyab Yunus, we hear from Anwar Khan, an engineer from the U.S. who returned to Bangladesh in 2004 with a simple mission: adopt a family and help however he could. What he didn't expect was that a single bathroom would turn into an entire movement. Through deeply personal stories, we explore how Anwar went from helping one refugee camp to founding Obat Helpers, now employing over 350 people across 12 schools, IT centers, clinics, and more—staffed by the very people the world forgot.",
+            guest: "Anwar Khan",
+            guestTitle: "Engineer & Founder, Obat Helpers",
+            duration: "31:44",
+            publishDate: "2025-06-25",
+            youtubeId: "EJC6u0GabzY",
+            audioUrl: "https://audio.transistor.fm/episode-4.mp3",
+            featured: false,
+            tags: ["refugee support", "grassroots development", "bangladesh", "humanitarian", "empowerment", "obat helpers"],
+            keyTakeaways: [
+                "Visit and understand the ground reality before starting any initiative",
+                "Start small - even if no one else is working on the problem",
+                "Empower locals who understand the pain and have lived experience",
+                "Use your time and skills if you don't have funds to contribute",
+                "Trust in Allah's help and make sincere dua for guidance",
+                "Build your team from those who share your passion and vision"
+            ]
+        },
+        {
+            id: 5,
+            title: "Why Muslims Are Leaving the Masjid and How Dr. Jihad Turk Brought Them Back | Episode 5",
+            description: "What happens when a masjid is built—but no one comes? In this inspiring and thought-provoking episode of The Muslim Nonprofit Show with Tayyab Yunus, Dr. Jihad Turk shares his personal journey: from a disconnected Muslim teen in Arizona, to becoming a bridge-builder who helps create inclusive Muslim communities. Through his work with institutions like the Islamic Center of Southern California and Bayan Claremont, he reveals practical strategies for engaging disaffected Muslims and building thriving, welcoming communities.",
+            guest: "Dr. Jihad Turk",
+            guestTitle: "Islamic Scholar & Community Leader",
+            duration: "38:00",
+            publishDate: "2025-07-02",
+            youtubeId: "TKeJAruI9Nc",
+            audioUrl: "https://audio.transistor.fm/episode-5.mp3",
+            featured: true,
+            tags: ["masjid engagement", "community building", "youth connection", "islamic leadership", "inclusion"],
+            keyTakeaways: [
+                "Understanding why Muslims become disconnected from the masjid",
+                "Creating inclusive environments that welcome all Muslims",
+                "Bridging generational and cultural gaps in Muslim communities",
+                "Practical strategies for re-engaging disaffected Muslims",
+                "Building leadership that reflects community diversity"
+            ]
         }
     ],
 
     // Statistics
     stats: {
-        totalEpisodes: 3,
+        totalEpisodes: 5,
         totalDownloads: "1.2K+",
         averageRating: 4.9,
         countries: 12
