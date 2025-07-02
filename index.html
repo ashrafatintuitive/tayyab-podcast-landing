@@ -427,6 +427,16 @@
         if (index === 1) {
             script.onload = () => console.log('Website data loaded:', typeof websiteData !== 'undefined' ? 'available' : 'undefined');
         }
+        if (index === 2) {
+            // Main.js loaded - ensure initialization
+            script.onload = () => {
+                console.log('Main.js loaded, initializing...');
+                if (typeof PodcastWebsite !== 'undefined' && !window.podcastWebsite) {
+                    window.podcastWebsite = new PodcastWebsite();
+                    console.log('✅ Website initialized successfully');
+                }
+            };
+        }
         document.head.appendChild(script);
     });
     
