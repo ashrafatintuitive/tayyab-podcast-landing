@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast CRM - The Muslim Non-Profit Show</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="auth-check.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Podcast Episode Manager</h1>
+            <nav>
+                <button class="btn" onclick="showSection('episodes')">Episodes</button>
+                <button class="btn" onclick="showSection('new-episode')">New Episode</button>
+                <button class="btn" onclick="showSection('site-content')">Site Content</button>
+                <button class="btn btn-primary" onclick="syncSources()">Sync Sources</button>
+                <button class="btn btn-success" onclick="exportAll()">Export All</button>
+                <a href="logout.php" class="btn" style="background-color: var(--danger);">Logout</a>
+            </nav>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <span class="label">Total Episodes:</span>
+                <span class="value" id="stat-total">0</span>
+            </div>
+            <div class="stat">
+                <span class="label">Published:</span>
+                <span class="value" id="stat-published">0</span>
+            </div>
+            <div class="stat">
+                <span class="label">Drafts:</span>
+                <span class="value" id="stat-drafts">0</span>
+            </div>
+            <div class="stat">
+                <span class="label">Last Sync:</span>
+                <span class="value" id="stat-last-sync">Never</span>
+            </div>
+        </div>
+
+        <main>
+            <!-- Episodes List Section -->
+            <section id="episodes-section" class="section active">
+                <div class="filters">
+                    <input type="text" id="search" placeholder="Search episodes..." onkeyup="filterEpisodes()">
+                    <select id="status-filter" onchange="filterEpisodes()">
+                        <option value="">All Status</option>
+                        <option value="published">Published</option>
+                        <option value="draft">Draft</option>
+                    </select>
+                </div>
+                
+                <div id="episodes-list" class="episodes-grid">
+                    <!-- Episodes will be loaded here -->
+                </div>
+            </section>
+
+            <!-- New/Edit Episode Section -->
+            <section id="new-episode-section" class="section">
+                <h2 id="form-title">New Episode</h2>
+                <form id="episode-form" onsubmit="saveEpisode(event)">
+                    <input type="hidden" id="episode-id">
+                    
+                    <div class="form-group">
+                        <label for="title">Title *</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="guest">Guest Name</label>
+                            <input type="text" id="guest" name="guest">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="guest_title">Guest Title/Organization</label>
+                            <input type="text" id="guest_title" name="guest_title">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="publish_date">Publish Date</label>
+                            <input type="date" id="publish_date" name="publish_date">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="duration">Duration (MM:SS)</label>
+                            <input type="text" id="duration" name="duration" placeholder="32:45">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="youtube_id">YouTube ID</label>
+                            <input type="text" id="youtube_id" name="youtube_id" placeholder="7hQml6-4SUM">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="audio_url">Audio URL</label>
+                            <input type="url" id="audio_url" name="audio_url">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tags">Tags (comma-separated)</label>
+                        <input type="text" id="tags" name="tags" placeholder="zakat, nonprofits, management">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="key_takeaways">Key Takeaways (one per line)</label>
+                        <textarea id="key_takeaways" name="key_takeaways" rows="4" placeholder="Enter each takeaway on a new line"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group checkbox">
+                            <label>
+                                <input type="checkbox" id="featured" name="featured">
+                                Featured Episode
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select id="status" name="status">
+                                <option value="draft">Draft</option>
+                                <option value="published">Published</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Episode</button>
+                        <button type="button" class="btn" onclick="showSection('episodes')">Cancel</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Site Content Management Section -->
+            <section id="site-content-section" class="section">
+                <h2>Website Content Manager</h2>
+                
+                <div class="content-tabs">
+                    <button class="content-tab active" onclick="showContentTab('hero')">Hero Section</button>
+                    <button class="content-tab" onclick="showContentTab('stats')">Statistics</button>
+                    <button class="content-tab" onclick="showContentTab('mission')">Mission</button>
+                    <button class="content-tab" onclick="showContentTab('social')">Social Links</button>
+                    <button class="content-tab" onclick="showContentTab('meta')">SEO/Meta</button>
+                    <button class="content-tab" onclick="showContentTab('footer')">Footer</button>
+                </div>
+
+                <!-- Hero Content Tab -->
+                <div id="hero-content" class="content-panel active">
+                    <h3>Hero Section Content</h3>
+                    <form id="hero-form" onsubmit="saveContent(event, 'hero')">
+                        <div class="form-group">
+                            <label for="hero-badge">Badge Text</label>
+                            <input type="text" id="hero-badge" name="badge" value="Breaking The 95% Failure Rate">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hero-title">Main Title</label>
+                            <input type="text" id="hero-title" name="title" value="The Muslim Non-Profit Show">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hero-byline">Byline</label>
+                            <input type="text" id="hero-byline" name="byline" value="With Tayyab Yunus">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hero-description">Description</label>
+                            <textarea id="hero-description" name="description" rows="3">Every week, discover the untold stories of Muslim changemakers who defied the odds, scaled their impact, and built organizations that serve humanity while experiencing true Islam—peace.</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hero-cta1">Primary CTA Text</label>
+                            <input type="text" id="hero-cta1" name="cta1" value="Watch Episodes">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hero-cta2">Secondary CTA Text</label>
+                            <input type="text" id="hero-cta2" name="cta2" value="Meet Tayyab">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hero-cta3">Third CTA Text</label>
+                            <input type="text" id="hero-cta3" name="cta3" value="Sign Up for Updates">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Save Hero Content</button>
+                    </form>
+                </div>
+
+                <!-- Stats Content Tab -->
+                <div id="stats-content" class="content-panel">
+                    <h3>Statistics Section</h3>
+                    <form id="stats-form" onsubmit="saveContent(event, 'stats')">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="stat1-value">Stat 1 Value</label>
+                                <input type="text" id="stat1-value" name="stat1_value" value="20+">
+                            </div>
+                            <div class="form-group">
+                                <label for="stat1-label">Stat 1 Label</label>
+                                <input type="text" id="stat1-label" name="stat1_label" value="Years Experience in Social Enterprise">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="stat2-value">Stat 2 Value</label>
+                                <input type="text" id="stat2-value" name="stat2_value" value="8K">
+                            </div>
+                            <div class="form-group">
+                                <label for="stat2-label">Stat 2 Label</label>
+                                <input type="text" id="stat2-label" name="stat2_label" value="Muslim Non-Profits Stuck in Startup">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="stat3-value">Stat 3 Value</label>
+                                <input type="text" id="stat3-value" name="stat3_value" value="95%">
+                            </div>
+                            <div class="form-group">
+                                <label for="stat3-label">Stat 3 Label</label>
+                                <input type="text" id="stat3-label" name="stat3_label" value="Failure Rate We're Breaking">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="stat4-value">Stat 4 Value</label>
+                                <input type="text" id="stat4-value" name="stat4_value" value="∞">
+                            </div>
+                            <div class="form-group">
+                                <label for="stat4-label">Stat 4 Label</label>
+                                <input type="text" id="stat4-label" name="stat4_label" value="Impact When They Scale">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Save Statistics</button>
+                    </form>
+                </div>
+
+                <!-- Mission Content Tab -->
+                <div id="mission-content" class="content-panel">
+                    <h3>Mission Section</h3>
+                    <form id="mission-form" onsubmit="saveContent(event, 'mission')">
+                        <div class="form-group">
+                            <label for="mission-title">Section Title</label>
+                            <input type="text" id="mission-title" name="title" value="A World Served by Muslims Experiences Islam">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mission-para1">Paragraph 1</label>
+                            <textarea id="mission-para1" name="paragraph1" rows="3">Islam means peace. And in a world desperately searching for peace, we believe the path forward is through service—serving others, serving humanity.</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mission-para2">Paragraph 2</label>
+                            <textarea id="mission-para2" name="paragraph2" rows="3">This show brings together the founders, funders, rising stars, and changemakers who've cracked the code. They'll share the insights that helped them navigate the dark nights, overcome the hurdles, and scale their organizations beyond startup.</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mission-para3">Paragraph 3</label>
+                            <textarea id="mission-para3" name="paragraph3" rows="3">Because the mentors and teachers who share their wisdom are often what makes the difference between failure and transformational impact.</textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Save Mission Content</button>
+                    </form>
+                </div>
+
+                <!-- Social Links Tab -->
+                <div id="social-content" class="content-panel">
+                    <h3>Social Media Links</h3>
+                    <form id="social-form" onsubmit="saveContent(event, 'social')">
+                        <div class="form-group">
+                            <label for="social-title">Section Title</label>
+                            <input type="text" id="social-title" name="title" value="Follow The Journey">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="youtube-url">YouTube URL</label>
+                            <input type="url" id="youtube-url" name="youtube" value="https://www.youtube.com/@tayyabyunus">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="instagram-url">Instagram URL</label>
+                            <input type="url" id="instagram-url" name="instagram" value="https://www.instagram.com/tayyabyunus/">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="facebook-url">Facebook URL</label>
+                            <input type="url" id="facebook-url" name="facebook" value="https://www.facebook.com/tayyabyunus">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="linkedin-url">LinkedIn URL</label>
+                            <input type="url" id="linkedin-url" name="linkedin" value="https://linkedin.com/in/tayyabyunus">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="apple-podcasts-url">Apple Podcasts URL</label>
+                            <input type="url" id="apple-podcasts-url" name="apple_podcasts" value="https://podcasts.apple.com/us/podcast/the-muslim-non-profit-show-with-tayyab-yunus/id1818343671">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="spotify-url">Spotify URL</label>
+                            <input type="url" id="spotify-url" name="spotify" value="https://open.spotify.com/show/0N3Iy4641bzCvN2kCvmm8W">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="iheart-url">iHeartRadio URL</label>
+                            <input type="url" id="iheart-url" name="iheart" value="https://www.iheart.com/podcast/263-the-muslim-non-profit-show-279134715/">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Save Social Links</button>
+                    </form>
+                </div>
+
+                <!-- SEO/Meta Content Tab -->
+                <div id="meta-content" class="content-panel">
+                    <h3>SEO & Meta Information</h3>
+                    <form id="meta-form" onsubmit="saveContent(event, 'meta')">
+                        <div class="form-group">
+                            <label for="site-title">Site Title</label>
+                            <input type="text" id="site-title" name="title" value="The Muslim Non-Profit Show with Tayyab Yunus">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="site-description">Meta Description</label>
+                            <textarea id="site-description" name="description" rows="2">Breaking the 95% failure rate in Muslim non-profits through powerful stories and actionable insights. Weekly conversations with changemakers who've scaled their impact.</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="site-keywords">Keywords</label>
+                            <input type="text" id="site-keywords" name="keywords" value="Muslim non-profit, social entrepreneurship, Tayyab Yunus, podcast, changemakers, impact scaling, Islamic philanthropy">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="og-image">OG Image URL</label>
+                            <input type="url" id="og-image" name="og_image" value="https://themuslimnonprofitshow.com/images/og-image.jpg">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="site-url">Site URL</label>
+                            <input type="url" id="site-url" name="url" value="https://themuslimnonprofitshow.com/">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Save SEO Settings</button>
+                    </form>
+                </div>
+
+                <!-- Footer Content Tab -->
+                <div id="footer-content" class="content-panel">
+                    <h3>Footer Content</h3>
+                    <form id="footer-form" onsubmit="saveContent(event, 'footer')">
+                        <div class="form-group">
+                            <label for="footer-title">Footer Title</label>
+                            <input type="text" id="footer-title" name="title" value="The Muslim Non-Profit Show">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="footer-tagline">Footer Tagline</label>
+                            <input type="text" id="footer-tagline" name="tagline" value="Making the world a better place, one story at a time.">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tayyab-url">Tayyab's Website URL</label>
+                            <input type="url" id="tayyab-url" name="tayyab_url" value="https://tayyabyunus.com/">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact-email">Contact Email</label>
+                            <input type="email" id="contact-email" name="email" value="hello@tayyabyunus.com">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Save Footer Content</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

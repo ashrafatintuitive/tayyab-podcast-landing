@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Repository**: https://github.com/ashrafatintuitive/tayyab-podcast-landing
+
 ## Project Overview
 
 This is a static landing page for "The Muslim Non-Profit Show" podcast. It's built with vanilla JavaScript, HTML, and CSS - no frameworks or build tools required.
