@@ -113,11 +113,20 @@ function updateCacheVersion() {
     
     $content = file_get_contents($indexPath);
     $timestamp = time();
+    $random = substr(md5(microtime()), 0, 8);
+    $cacheBuster = "nocache&t={$timestamp}&r={$random}";
     
-    // Update all JS file versions with timestamp
+    // Update cache buster in the dynamic script
     $content = preg_replace(
-        '/(<script src="js\/[^"]+\.js)\?v=[^"]*(")/i',
-        '$1?v=' . $timestamp . '$2',
+        '/const cacheBuster = `[^`]*`;/',
+        'const cacheBuster = `' . $cacheBuster . '`;',
+        $content
+    );
+    
+    // Also update any remaining static version references
+    $content = preg_replace(
+        '/(\?v=)[^"&]+/',
+        '$1' . $cacheBuster,
         $content
     );
     

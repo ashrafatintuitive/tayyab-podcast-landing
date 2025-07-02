@@ -8,6 +8,14 @@
     <meta name="keywords" content="Muslim non-profit, social entrepreneurship, Tayyab Yunus, podcast, changemakers, impact scaling, Islamic philanthropy">
     <meta name="author" content="Tayyab Yunus">
     
+    <!-- Cache Prevention -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="cache-control" content="no-cache">
+    <meta name="expires" content="0">
+    <meta name="pragma" content="no-cache">
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://themuslimnonprofitshow.com/">
@@ -36,7 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="css/styles.css?v=20250702">
+    <link rel="stylesheet" href="css/styles.css?v=nocache&t=" id="styles-link">
 </head>
 <body>
     <!-- Background Elements -->
@@ -392,9 +400,37 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="js/episodes.js?v=20250702-2"></script>
-    <script src="js/website-data.js?v=20250702-2"></script>
-    <script src="js/main.js?v=20250702-2"></script>
+    <!-- Dynamic Cache Busting Script -->
+    <script>
+    // Add timestamps to prevent any caching
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(7);
+    const cacheBuster = `nocache&t=${timestamp}&r=${random}`;
+    
+    // Update CSS with dynamic timestamp
+    document.getElementById('styles-link').href = `css/styles.css?v=${cacheBuster}`;
+    
+    // Load scripts with dynamic cache busting
+    const scripts = [
+        `js/episodes.js?v=${cacheBuster}`,
+        `js/website-data.js?v=${cacheBuster}`,
+        `js/main.js?v=${cacheBuster}`
+    ];
+    
+    scripts.forEach((src, index) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = false; // Maintain order
+        if (index === 0) {
+            script.onload = () => console.log('Episodes data loaded:', typeof episodes !== 'undefined' ? episodes.length : 'undefined');
+        }
+        if (index === 1) {
+            script.onload = () => console.log('Website data loaded:', typeof websiteData !== 'undefined' ? 'available' : 'undefined');
+        }
+        document.head.appendChild(script);
+    });
+    
+    console.log('🚀 Cache busting enabled with timestamp:', timestamp);
+    </script>
 </body>
 </html>
