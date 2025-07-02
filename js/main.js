@@ -313,7 +313,7 @@ class PodcastWebsite {
 
     // Initialize episode player (bento grid)
     initializeEpisodePlayer() {
-        if (typeof podcastData === 'undefined' || typeof EpisodeManager === 'undefined') {
+        if (typeof episodes === 'undefined' || typeof EpisodeManager === 'undefined') {
             console.warn('Episode data not available');
             return;
         }

@@ -152,6 +152,10 @@ const EpisodeManager = {
     
     getYouTubeThumbnailUrl(youtubeId, quality = 'maxresdefault') {
         return `https://img.youtube.com/vi/${youtubeId}/${quality}.jpg`;
+    },
+    
+    getYouTubeWatchUrl(youtubeId) {
+        return `https://www.youtube.com/watch?v=${youtubeId}`;
     }
 };
 
