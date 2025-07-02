@@ -1,9 +1,9 @@
 <?php
 // Security check - only allow access with a secret key
-$secret_key = 'debug_' . date('Ymd');
+$secret_key = 'debug123';  // Simple fixed key for debugging
 if (!isset($_GET['key']) || $_GET['key'] !== $secret_key) {
     http_response_code(403);
-    die('Access denied. Use ?key=' . $secret_key);
+    die('Access denied. Use ?key=' . $secret_key . ' (Server date: ' . date('Y-m-d H:i:s') . ')');
 }
 
 // Check specific requirements for the CRM
