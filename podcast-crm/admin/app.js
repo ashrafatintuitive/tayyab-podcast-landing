@@ -86,7 +86,7 @@ function filterEpisodes() {
 }
 
 // Show section
-function showSection(section) {
+window.showSection = function showSection(section) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById(`${section}-section`).classList.add('active');
     
@@ -126,8 +126,8 @@ async function editEpisode(id) {
     }
 }
 
-// Save episode
-async function saveEpisode(event) {
+// Save episode - Make globally accessible
+window.saveEpisode = async function saveEpisode(event) {
     event.preventDefault();
     
     const formData = new FormData(event.target);
@@ -189,8 +189,8 @@ async function deleteEpisode(id) {
     }
 }
 
-// Sync sources
-async function syncSources() {
+// Sync sources - Make globally accessible  
+window.syncSources = async function syncSources() {
     const button = event.target;
     button.disabled = true;
     button.textContent = 'Syncing...';
@@ -350,7 +350,7 @@ function populateContentForms() {
 }
 
 // Show content tab
-function showContentTab(tabName) {
+window.showContentTab = function showContentTab(tabName) {
     // Hide all panels
     document.querySelectorAll('.content-panel').forEach(panel => {
         panel.classList.remove('active');
@@ -368,8 +368,8 @@ function showContentTab(tabName) {
     event.target.classList.add('active');
 }
 
-// Save content
-async function saveContent(event, section) {
+// Save content - Make globally accessible
+window.saveContent = async function saveContent(event, section) {
     event.preventDefault();
     
     const formData = new FormData(event.target);
@@ -416,8 +416,8 @@ async function autoPublishContent() {
     }
 }
 
-// Publish all content (episodes and website content)
-async function publishAll() {
+// Publish all content (episodes and website content) - Make globally accessible
+window.publishAll = async function publishAll() {
     const button = event.target;
     button.disabled = true;
     button.textContent = 'Publishing...';
