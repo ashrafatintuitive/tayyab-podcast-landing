@@ -395,5 +395,76 @@
     <div id="notification" class="notification"></div>
 
     <script src="app.js"></script>
+    <script>
+    // IMMEDIATE GLOBAL FUNCTION ASSIGNMENTS - Fix for onclick handlers
+    function publishAll() {
+        if (window.publishAll) {
+            return window.publishAll(event);
+        }
+        // Direct implementation as backup
+        const button = event.target;
+        button.disabled = true;
+        button.textContent = 'Publishing...';
+        
+        fetch('../api/index.php/export-all', {method: 'POST'})
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    showNotification('All content published successfully!', 'success');
+                } else {
+                    showNotification('Error publishing content', 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('Error publishing content', 'error');
+            })
+            .finally(() => {
+                button.disabled = false;
+                button.textContent = 'Publish All';
+            });
+    }
+    
+    function syncSources() {
+        if (window.syncSources) {
+            return window.syncSources(event);
+        }
+        // Direct implementation as backup
+        const button = event.target;
+        button.disabled = true;
+        button.textContent = 'Syncing...';
+        
+        fetch('../api/index.php/sync', {method: 'POST'})
+            .then(response => response.json())
+            .then(result => {
+                showNotification('Sync completed', 'success');
+            })
+            .catch(error => {
+                showNotification('Error syncing sources', 'error');
+            })
+            .finally(() => {
+                button.disabled = false;
+                button.textContent = 'Sync Sources';
+            });
+    }
+    
+    function showSection(section) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(`${section}-section`).classList.add('active');
+    }
+    
+    function showContentTab(tabName) {
+        document.querySelectorAll('.content-panel').forEach(panel => {
+            panel.classList.remove('active');
+        });
+        document.querySelectorAll('.content-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        document.getElementById(`${tabName}-panel`).classList.add('active');
+        event.target.classList.add('active');
+    }
+    
+    console.log('✅ Direct global functions created for HTML onclick handlers');
+    </script>
 </body>
 </html>
