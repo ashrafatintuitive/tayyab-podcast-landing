@@ -90,9 +90,10 @@ header h1 {
     gap: 12px;
 }
 
-header h1::before {
-    content: "🎙️";
-    font-size: 32px;
+header h1 i {
+    width: 32px;
+    height: 32px;
+    stroke-width: 2;
 }
 
 header nav {
@@ -103,7 +104,7 @@ header nav {
 
 /* Modern Button Design */
 .btn {
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
     border-radius: 8px;
     font-size: 14px;
@@ -118,6 +119,13 @@ header nav {
     white-space: nowrap;
     position: relative;
     overflow: hidden;
+    min-height: 44px; /* Ensure consistent button height */
+}
+
+.btn i {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2;
 }
 
 /* Button hover effect */
@@ -192,16 +200,6 @@ header nav {
 .btn-warning:hover {
     background-color: var(--warning-hover);
 }
-
-/* Button Icons */
-.btn-primary::before { content: "➕ "; }
-.btn-success::before { content: "✅ "; }
-.btn[onclick*="syncSources"]::before { content: "🔄 "; }
-.btn[onclick*="showSection('episodes')"]::before { content: "📺 "; }
-.btn[onclick*="showSection('new-episode')"]::before { content: "✨ "; }
-.btn[onclick*="showSection('site-content')"]::before { content: "🌐 "; }
-.btn[href*="change-password"]::before { content: "🔐 "; }
-.btn[href*="logout"]::before { content: "🚪 "; }
 
 /* Disabled button state */
 .btn:disabled {
@@ -281,9 +279,24 @@ main {
     margin-bottom: 24px;
 }
 
+.search-input {
+    position: relative;
+    flex: 2;
+    display: flex;
+    align-items: center;
+}
+
+.search-input i {
+    position: absolute;
+    left: 12px;
+    width: 16px;
+    height: 16px;
+    color: var(--text-muted);
+    z-index: 1;
+}
+
 .filters input,
 .filters select {
-    flex: 1;
     padding: 12px 16px;
     background-color: var(--bg);
     border: 2px solid var(--border);
@@ -291,6 +304,16 @@ main {
     color: var(--text);
     font-size: 14px;
     transition: var(--transition);
+    width: 100%;
+}
+
+.search-input input {
+    padding-left: 40px; /* Space for icon */
+}
+
+.filters select {
+    flex: 1;
+    min-width: 150px;
 }
 
 .filters input:focus,
@@ -298,6 +321,7 @@ main {
     outline: none;
     border-color: var(--border-focus);
     background-color: var(--surface);
+    box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 .filters input::placeholder {
@@ -367,13 +391,11 @@ main {
     gap: 4px;
 }
 
-.episode-card .meta span::before {
-    font-size: 14px;
+.episode-card .meta span i {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
 }
-
-.meta span:nth-child(1)::before { content: "👤"; }
-.meta span:nth-child(2)::before { content: "📅"; }
-.meta span:nth-child(3)::before { content: "⏱️"; }
 
 .episode-card .description {
     color: var(--text-secondary);
@@ -603,16 +625,11 @@ label:has(+ input[required])::after {
     gap: 12px;
 }
 
-.content-panel h3::before {
-    font-size: 24px;
+.content-panel h3 i {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2;
 }
-
-#hero-content h3::before { content: "🏠"; }
-#stats-content h3::before { content: "📊"; }
-#mission-content h3::before { content: "🎯"; }
-#social-content h3::before { content: "🔗"; }
-#meta-content h3::before { content: "🔍"; }
-#footer-content h3::before { content: "📝"; }
 
 /* Notification Toast */
 .notification {
@@ -715,18 +732,39 @@ label:has(+ input[required])::after {
     }
     
     header h1 {
-        font-size: 24px;
+        font-size: 20px;
         margin-bottom: 16px;
+        text-align: center;
+    }
+    
+    header h1 i {
+        width: 24px;
+        height: 24px;
     }
     
     header nav {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
         width: 100%;
     }
     
     .btn {
-        width: 100%;
+        padding: 10px 12px;
+        font-size: 13px;
         justify-content: center;
+        text-align: center;
+    }
+    
+    .btn i {
+        width: 14px;
+        height: 14px;
+    }
+    
+    /* Stack buttons on mobile for better UX */
+    .btn[href*="logout"],
+    .btn[href*="change-password"] {
+        grid-column: span 2;
     }
     
     .form-row {
@@ -738,28 +776,78 @@ label:has(+ input[required])::after {
     }
     
     .stats-bar {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    
+    .stat {
+        padding: 16px;
+    }
+    
+    .stat .value {
+        font-size: 24px;
     }
     
     .content-tabs {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 4px;
     }
     
     .content-tab {
-        width: 100%;
-        text-align: left;
+        padding: 8px 12px;
+        font-size: 12px;
+        text-align: center;
     }
     
     .filters {
         flex-direction: column;
+        gap: 12px;
+    }
+    
+    .search-input {
+        flex: none;
     }
     
     main {
-        padding: 20px;
+        padding: 16px;
     }
     
     .content-panel {
-        padding: 20px;
+        padding: 16px;
+    }
+    
+    .episode-card .actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .episode-card .actions .btn {
+        width: 100%;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .form-actions .btn {
+        width: 100%;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    header nav {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-bar {
+        grid-template-columns: 1fr;
+    }
+    
+    .content-tabs {
+        grid-template-columns: 1fr 1fr;
     }
 }
 

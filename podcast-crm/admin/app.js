@@ -48,10 +48,15 @@ function displayEpisodes(episodesToShow) {
             <div class="empty-state">
                 <p>No episodes found</p>
                 <button class="btn btn-primary" onclick="showSection('new-episode')">
-                    ➕ Create Your First Episode
+                    <i data-lucide="plus"></i>
+                    Create Your First Episode
                 </button>
             </div>
         `;
+        // Reinitialize icons for dynamic content
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
         return;
     }
     
@@ -60,9 +65,9 @@ function displayEpisodes(episodesToShow) {
             <span class="status ${episode.status}">${episode.status === 'published' ? '● Published' : '○ Draft'}</span>
             <h3>${episode.title}</h3>
             <div class="meta">
-                ${episode.guest ? `<span>${episode.guest}</span>` : ''}
-                ${episode.publish_date ? `<span>${formatDate(episode.publish_date)}</span>` : ''}
-                ${episode.duration ? `<span>${episode.duration}</span>` : ''}
+                ${episode.guest ? `<span><i data-lucide="user"></i>${episode.guest}</span>` : ''}
+                ${episode.publish_date ? `<span><i data-lucide="calendar"></i>${formatDate(episode.publish_date)}</span>` : ''}
+                ${episode.duration ? `<span><i data-lucide="clock"></i>${episode.duration}</span>` : ''}
             </div>
             <p class="description">${episode.description || 'No description available'}</p>
             ${episode.tags ? `
@@ -73,12 +78,26 @@ function displayEpisodes(episodesToShow) {
                 </div>
             ` : ''}
             <div class="actions">
-                <button class="btn" onclick="editEpisode(${episode.id})">✏️ Edit</button>
-                <button class="btn" onclick="previewEpisode(${episode.id})" style="background: var(--info); color: white;">👁️ Preview</button>
-                <button class="btn btn-danger" onclick="confirmDelete(${episode.id}, '${episode.title.replace(/'/g, "\\'")}')">🗑️ Delete</button>
+                <button class="btn" onclick="editEpisode(${episode.id})">
+                    <i data-lucide="edit-2"></i>
+                    Edit
+                </button>
+                <button class="btn" onclick="previewEpisode(${episode.id})" style="background: var(--info); color: white;">
+                    <i data-lucide="eye"></i>
+                    Preview
+                </button>
+                <button class="btn btn-danger" onclick="confirmDelete(${episode.id}, '${episode.title.replace(/'/g, "\\'")}')">
+                    <i data-lucide="trash-2"></i>
+                    Delete
+                </button>
             </div>
         </div>
     `).join('');
+    
+    // Reinitialize icons for dynamic content
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
 }
 
 // Format date helper
