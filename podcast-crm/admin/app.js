@@ -44,26 +44,64 @@ function displayEpisodes(episodesToShow) {
     const container = document.getElementById('episodes-list');
     
     if (episodesToShow.length === 0) {
-        container.innerHTML = '<div class="loading">No episodes found</div>';
+        container.innerHTML = `
+            <div class="empty-state">
+                <p>No episodes found</p>
+                <button class="btn btn-primary" onclick="showSection('new-episode')">
+                    ➕ Create Your First Episode
+                </button>
+            </div>
+        `;
         return;
     }
     
     container.innerHTML = episodesToShow.map(episode => `
-        <div class="episode-card">
-            <span class="status ${episode.status}">${episode.status.toUpperCase()}</span>
+        <div class="episode-card ${episode.featured === 1 ? 'featured' : ''}">
+            <span class="status ${episode.status}">${episode.status === 'published' ? '● Published' : '○ Draft'}</span>
             <h3>${episode.title}</h3>
             <div class="meta">
-                ${episode.guest ? `<span>👤 ${episode.guest}</span>` : ''}
-                ${episode.publish_date ? `<span>📅 ${episode.publish_date}</span>` : ''}
-                ${episode.duration ? `<span>⏱️ ${episode.duration}</span>` : ''}
+                ${episode.guest ? `<span>${episode.guest}</span>` : ''}
+                ${episode.publish_date ? `<span>${formatDate(episode.publish_date)}</span>` : ''}
+                ${episode.duration ? `<span>${episode.duration}</span>` : ''}
             </div>
-            <p class="description">${episode.description || 'No description'}</p>
+            <p class="description">${episode.description || 'No description available'}</p>
+            ${episode.tags ? `
+                <div style="margin: 12px 0;">
+                    ${episode.tags.split(',').map(tag => 
+                        `<span style="display: inline-block; background: var(--primary-light); color: var(--primary); padding: 4px 8px; border-radius: 12px; font-size: 12px; margin-right: 6px; margin-bottom: 6px;">${tag.trim()}</span>`
+                    ).join('')}
+                </div>
+            ` : ''}
             <div class="actions">
-                <button class="btn btn-primary" onclick="editEpisode(${episode.id})">Edit</button>
-                <button class="btn btn-danger" onclick="deleteEpisode(${episode.id})">Delete</button>
+                <button class="btn" onclick="editEpisode(${episode.id})">✏️ Edit</button>
+                <button class="btn" onclick="previewEpisode(${episode.id})" style="background: var(--info); color: white;">👁️ Preview</button>
+                <button class="btn btn-danger" onclick="confirmDelete(${episode.id}, '${episode.title.replace(/'/g, "\\'")}')">🗑️ Delete</button>
             </div>
         </div>
     `).join('');
+}
+
+// Format date helper
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// Preview episode (opens in new tab)
+function previewEpisode(id) {
+    const episode = episodes.find(e => e.id === id);
+    if (episode && episode.youtube_id) {
+        window.open(`https://youtube.com/watch?v=${episode.youtube_id}`, '_blank');
+    } else {
+        showNotification('No YouTube video available for this episode', 'info');
+    }
+}
+
+// Confirm before deleting
+function confirmDelete(id, title) {
+    if (confirm(`Are you sure you want to delete "${title}"? This action cannot be undone.`)) {
+        deleteEpisode(id);
+    }
 }
 
 // Filter episodes
@@ -265,12 +303,44 @@ async function syncAndPublishEpisodes() {
 // Show notification
 function showNotification(message, type = 'info') {
     const notification = document.getElementById('notification');
-    notification.textContent = message;
-    notification.className = `notification show ${type}`;
     
+    // Remove any existing content
+    notification.innerHTML = '';
+    
+    // Add icon based on type
+    const icon = document.createElement('span');
+    icon.style.fontSize = '20px';
+    icon.style.marginRight = '12px';
+    
+    switch(type) {
+        case 'success':
+            icon.textContent = '✅';
+            break;
+        case 'error':
+            icon.textContent = '❌';
+            break;
+        case 'info':
+            icon.textContent = 'ℹ️';
+            break;
+        default:
+            icon.textContent = '📢';
+    }
+    
+    notification.appendChild(icon);
+    notification.appendChild(document.createTextNode(message));
+    
+    // Show notification with animation
+    notification.className = `notification ${type}`;
+    
+    // Force reflow to restart animation
+    notification.offsetHeight;
+    
+    notification.classList.add('show');
+    
+    // Auto-hide after 4 seconds
     setTimeout(() => {
         notification.classList.remove('show');
-    }, 3000);
+    }, 4000);
 }
 
 // Website Content Management Functions
